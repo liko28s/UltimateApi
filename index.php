@@ -7,6 +7,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Illuminate\Database\Capsule\Manager as CapsuleManager;
 use Nextria\Helpers\Logger as Logger;
 use Nextria\Controllers\PlayerController as Player;
+use Nextria\Controllers\TeamController as Team;
 
 /** Instancia de Slim */
 $app = new \Slim\App(CONFIG);
@@ -72,8 +73,8 @@ $app->group('/players', function() {
     });
 
     $this->get('/{player_id}', function (Request $request, Response $response, $args){
-        $players = new Player();
-        return $response->withJson($players->get($args['player_id']));
+        $player = new Player();
+        return $response->withJson($player->get($args['player_id']));
     });
 
     $this->post('', function (Request $request, Response $response) {
@@ -82,9 +83,31 @@ $app->group('/players', function() {
     });
 
     $this->delete('/{player_id}', function (Request $request, Response $response, $args){
-        $players = new Player();
-        return $response->withJson($players->del($args['player_id']));
+        $player = new Player();
+        return $response->withJson($player->del($args['player_id']));
     });
 
+});
+
+$app->group('/teams', function () {
+   $this->get('', function (Request $request, Response $response){
+       $teams = new Team();
+       return $response->withJson($teams->get());
+   });
+
+    $this->get('/{team_id}', function (Request $request, Response $response, $args){
+        $team = new Team();
+        return $response->withJson($team->get($args['team_id']));
+    });
+
+    $this->post('', function (Request $request, Response $response) {
+        $team = new Team();
+        return $response->withJson($team->add($request->getParsedBody()));
+    });
+
+    $this->delete('/{team_id}', function (Request $request, Response $response, $args){
+        $team = new Team();
+        return $response->withJson($team->del($args['team_id']));
+    });
 });
 $app->run();
