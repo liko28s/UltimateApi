@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a3803e913ccabb4f77abc898ba577b20",
-    "content-hash": "039ee37c20cf98d939e0cae447380d8d",
+    "hash": "fb2da8d8d2559eab4c6d9efce9f5c5b2",
+    "content-hash": "31e7600529e0903d71cda04640781176",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -2915,6 +2915,44 @@
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
             "time": "2016-12-10 10:07:06"
+        },
+        {
+            "name": "vrana/adminer",
+            "version": "v4.2.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vrana/adminer.git",
+                "reference": "53dfafd2ea80e318eded7937252d0c1d9b7a2c93"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vrana/adminer/zipball/53dfafd2ea80e318eded7937252d0c1d9b7a2c93",
+                "reference": "53dfafd2ea80e318eded7937252d0c1d9b7a2c93",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "plugins/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0",
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jakub Vrána",
+                    "homepage": "http://www.vrana.cz/"
+                }
+            ],
+            "description": "Database management in a single PHP file.",
+            "homepage": "https://www.adminer.org/",
+            "keywords": [
+                "database"
+            ],
+            "time": "2016-06-01 17:09:29"
         },
         {
             "name": "webmozart/assert",
