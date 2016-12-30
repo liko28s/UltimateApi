@@ -2,6 +2,7 @@
 
 namespace Nextria\Controllers;
 
+use Illuminate\Database\QueryException;
 use Nextria\Models\Player;
 
 class PlayerController {
@@ -16,6 +17,27 @@ class PlayerController {
             return $this->model->get();
         }
         return $this->model->find($player_id);
+    }
+
+    public function add($player) {
+        foreach ($player as $field => $value) {
+            $this->model->$field = $value;
+        }
+        try {
+            $this->model->save();
+        } catch (QueryException $e) {
+            return array("ERROR" => $e->getMessage());
+        }
+        return array("OK");
+    }
+
+    public function del($player_id) {
+        try {
+            $this->model->find($player_id)->delete();
+        } catch (QueryException $e) {
+            return array("ERROR" => $e->getMessage());
+        }
+        return array("Ok");
     }
 
 }

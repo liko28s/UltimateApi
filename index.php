@@ -8,7 +8,6 @@ use Illuminate\Database\Capsule\Manager as CapsuleManager;
 use Nextria\Helpers\Logger as Logger;
 use Nextria\Controllers\PlayerController as Player;
 
-
 /** Instancia de Slim */
 $app = new \Slim\App(CONFIG);
 
@@ -44,6 +43,18 @@ $container['logger'] = function ($c) {
     return $logger->getInstance();
 };
 
+/**************
+ * MIDDLEWARE *
+ **************/
+/** Content Type */
+$app->add(function(Request $request, Response $response, $next){
+    $contentType = 'application/json';
+    if(($request->isPost() || $request->isPut()) && $request->getContentType() !== $contentType) {
+        return $next($request->withHeader('Content-Type',$contentType),$response);
+    }
+    return $next($request,$response);
+});
+
 //Dummy Table TODO remove
 $app->get('/dummy', function (Request $request, Response $response) {
     $dummy = new \Nextria\Controllers\DummyController();
@@ -67,8 +78,12 @@ $app->group('/players', function() {
 
     $this->post('', function (Request $request, Response $response) {
         $player = new Player();
-        $input = $request->getParsedBody();
-        return $response->withJson($player->add());
+        return $response->withJson($player->add($request->getParsedBody()));
+    });
+
+    $this->delete('/{player_id}', function (Request $request, Response $response, $args){
+        $players = new Player();
+        return $response->withJson($players->del($args['player_id']));
     });
 
 });
