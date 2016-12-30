@@ -29,7 +29,7 @@ $container['password'] = function () {
 //TODO si codigo 42S02 (tabla no existe) llamar a creacion de tablas
 //TODO hacer creador de tablas
 $container['db'] = function ($c) {
-  return $c['settings']['db'];
+    return $c['settings']['db'];
 };
 $capsule = new CapsuleManager();
 $capsule->addConnection($container->db);
@@ -67,12 +67,7 @@ $app->get('/dummy', function (Request $request, Response $response) {
 /** Players */
 $app->group('/players', function() {
 
-    $this->get('', function (Request $request, Response $response) {
-        $players = new Player();
-        return $response->withJson($players->get());
-    });
-
-    $this->get('/{player_id}', function (Request $request, Response $response, $args){
+    $this->get('[/{player_id}]', function (Request $request, Response $response, $args){
         $player = new Player();
         return $response->withJson($player->get($args['player_id']));
     });
@@ -90,12 +85,8 @@ $app->group('/players', function() {
 });
 
 $app->group('/teams', function () {
-   $this->get('', function (Request $request, Response $response){
-       $teams = new Team();
-       return $response->withJson($teams->get());
-   });
 
-    $this->get('/{team_id}', function (Request $request, Response $response, $args){
+    $this->get('[/{team_id}]', function (Request $request, Response $response, $args){
         $team = new Team();
         return $response->withJson($team->get($args['team_id']));
     });
