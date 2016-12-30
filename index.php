@@ -6,6 +6,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Illuminate\Database\Capsule\Manager as CapsuleManager;
 use Nextria\Helpers\Logger as Logger;
+use Nextria\Helpers\Sower as Sower;
 use Nextria\Controllers\PlayerController as Player;
 use Nextria\Controllers\TeamController as Team;
 
@@ -27,14 +28,14 @@ $container['password'] = function () {
 
 /** Database */
 //TODO si codigo 42S02 (tabla no existe) llamar a creacion de tablas
-//TODO hacer creador de tablas
 $container['db'] = function ($c) {
     return $c['settings']['db'];
 };
-$capsule = new CapsuleManager();
-$capsule->addConnection($container->db);
-$capsule->setAsGlobal();
-$capsule->bootEloquent();
+/** Instancia DB */
+$capsule = new \Nextria\Helpers\Db($container->db);
+/** Sembrador de Tablas */
+$sower = new Sower($capsule->getSchema());
+$sower->init();
 
 //TODO añadir controlador de errores al contenedor
 
@@ -61,8 +62,6 @@ $app->get('/dummy', function (Request $request, Response $response) {
     $dummy = new \Nextria\Controllers\DummyController();
     return $response->withJson($dummy->getTwo());
 });
-
-//TODO instalador de la api para crear tablas etc
 
 /** Players */
 $app->group('/players', function() {
