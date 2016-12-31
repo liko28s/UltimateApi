@@ -23,9 +23,8 @@ class Sower {
                 $table->engine = 'MyIsam';
                 $table->increments('id');
                 $table->string('name',100);
-                $table->text('description');
-                $table->integer('coach');
-                $table->text('image_url');
+                $table->text('description')->nullable();
+                $table->integer('coach')->nullable();
                 $table->timestamps();
                 $table->softDeletes();
             });
@@ -33,6 +32,14 @@ class Sower {
     }
 
     public function updateTeams() {
+        $this->schema->table('teams', function ($table) {
+            if(!$this->schema->hasColumn('teams','logo_image')) {
+                $table->text('logo_image')->nullable();
+            }
+            if(!$this->schema->hasColumn('teams','profile_image')) {
+                $table->text('profile_image')->nullable();
+            }
+        });
     }
 
     public function createPlayers() {
@@ -51,8 +58,8 @@ class Sower {
     public function updatePlayers() {
         $this->schema->table('players', function ($table) {
             //Modificar al gusto para crear o eliminar campos
-            if($this->schema->hasColumn('players','another_field')) {
-                $table->dropColumn('another_field');
+            if(!$this->schema->hasColumn('players','profile_image')) {
+                $table->text('profile_image')->nullable();
             }
         });
     }
