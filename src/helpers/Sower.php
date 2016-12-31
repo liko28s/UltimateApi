@@ -7,15 +7,17 @@ class Sower {
 
     public function __construct($schema) {
         $this->schema = $schema;
-
+        $this->init();
     }
 
     public function init() {
-        $this->createTeam();
-        $this->updateTeam();
+        $this->createTeams();
+        $this->updateTeams();
+        $this->createPlayers();
+        $this->updatePlayers();
     }
 
-    public function createTeam() {
+    public function createTeams() {
         if(!$this->schema->hasTable('teams')) {
             $this->schema->create('teams', function ($table){
                 $table->engine = 'MyIsam';
@@ -30,13 +32,27 @@ class Sower {
         }
     }
 
-    public function updateTeam() {
-        $this->schema->table('teams', function ($table) {
-            if($this->schema->hasColumn('teams','another_field')) {
+    public function updateTeams() {
+    }
+
+    public function createPlayers() {
+        if(!$this->schema->hasTable('players')) {
+            $this->schema->create('players', function ($table){
+                $table->engine = 'MyIsam';
+                $table->increments('id');
+                $table->string('name',100);
+                $table->string('last_name',100);
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
+    }
+
+    public function updatePlayers() {
+        $this->schema->table('players', function ($table) {
+            //Modificar al gusto para crear o eliminar campos
+            if($this->schema->hasColumn('players','another_field')) {
                 $table->dropColumn('another_field');
-            }
-            if($this->schema->hasColumn('teams','email')) {
-                $table->dropColumn('email');
             }
         });
     }
