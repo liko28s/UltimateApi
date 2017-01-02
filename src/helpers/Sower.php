@@ -12,11 +12,14 @@ class Sower {
 
     public function init() {
         $this->createTeams();
-        $this->updateTeams();
         $this->createPlayers();
-        $this->updatePlayers();
         $this->createCoaches();
         $this->createGroups();
+        $this->createMatches();
+        $this->createMatchDetails();
+
+        $this->updateTeams();
+        $this->updatePlayers();
     }
 
     public function createTeams() {
@@ -77,6 +80,36 @@ class Sower {
                 $table->engine = 'MyIsam';
                 $table->increments('id');
                 $table->string('name',100);
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
+    }
+
+    public function createMatches() {
+        if(!$this->schema->hasTable('matches')) {
+            $this->schema->create('matches', function ($table){
+                $table->engine = 'MyIsam';
+                $table->increments('id');
+                $table->timestamp('match_time');
+                $table->integer('arena_id')->references('id')->on('arenas');
+                $table->integer('team_one')->references('id')->on('teams');
+                $table->integer('team_two')->references('id')->on('teams');
+                $table->integer('status');
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
+    }
+    public function createMatchDetails() {
+        if(!$this->schema->hasTable('match_details')) {
+            $this->schema->create('match_details', function ($table){
+                $table->engine = 'MyIsam';
+                $table->integer('match_id');
+                $table->integer('team_id')->references('id')->on('teams');
+                $table->integer('player_id')->references('id')->on('players');
+                $table->integer('type');
+                $table->integer('status');
                 $table->timestamps();
                 $table->softDeletes();
             });
