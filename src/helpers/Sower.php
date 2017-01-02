@@ -23,9 +23,9 @@ class Sower {
                 $table->engine = 'MyIsam';
                 $table->increments('id');
                 $table->string('name',100);
-                $table->text('description');
-                $table->integer('coach');
-                $table->text('image_url');
+                $table->text('description')->nullable();
+                $table->integer('coach')->nullable();
+                $table->text('image')->nullable();
                 $table->timestamps();
                 $table->softDeletes();
             });
@@ -42,6 +42,8 @@ class Sower {
                 $table->increments('id');
                 $table->string('name',100);
                 $table->string('last_name',100);
+                $table->integer('team_id')->references('id')->on('teams');
+                $table->string('profile_image')->nullable;
                 $table->timestamps();
                 $table->softDeletes();
             });
@@ -50,9 +52,8 @@ class Sower {
 
     public function updatePlayers() {
         $this->schema->table('players', function ($table) {
-            //Modificar al gusto para crear o eliminar campos
-            if($this->schema->hasColumn('players','another_field')) {
-                $table->dropColumn('another_field');
+            if(!$this->schema->hasColumn('players','team_id')) {
+                $table->integer('team_id')->references('id')->on('teams');
             }
         });
     }

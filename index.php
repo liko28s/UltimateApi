@@ -51,16 +51,12 @@ $container['logger'] = function ($c) {
 /** Content Type */
 $app->add(function(Request $request, Response $response, $next){
     $contentType = 'application/json';
-    if(($request->isPost() || $request->isPut()) && $request->getContentType() !== $contentType) {
-        return $next($request->withHeader('Content-Type',$contentType),$response);
+    if($request->getContentType() !== $contentType) {
+        return $next($request->withHeader('Content-Type',$contentType),$response
+            ->withHeader('Access-Control-Allow-Origin', '*')
+            ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'));
     }
-    return $next($request,$response);
-});
-
-//Dummy Table TODO remove
-$app->get('/dummy', function (Request $request, Response $response) {
-    $dummy = new \Nextria\Controllers\DummyController();
-    return $response->withJson($dummy->getTwo());
 });
 
 /** Players */
@@ -68,7 +64,7 @@ $app->group('/players', function() {
 
     $this->get('[/{player_id}]', function (Request $request, Response $response, $args){
         $player = new Player();
-        return $response->withJson($player->get($args['player_id']));
+        return $response->withJson(["players" => $player->get($args['player_id'])]);
     });
 
     $this->post('', function (Request $request, Response $response) {
@@ -87,7 +83,7 @@ $app->group('/teams', function () {
 
     $this->get('[/{team_id}]', function (Request $request, Response $response, $args){
         $team = new Team();
-        return $response->withJson($team->get($args['team_id']));
+        return $response->withJson(["teams" => $team->get($args['team_id'])]);
     });
 
     $this->post('', function (Request $request, Response $response) {

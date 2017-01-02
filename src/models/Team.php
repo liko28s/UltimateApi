@@ -11,5 +11,8 @@ namespace Nextria\Models;
 
 class Team extends SuperModel
 {
+    public function players() {
+        return $this->hasMany('Nextria\Models\Player');
+    }
 
 }
