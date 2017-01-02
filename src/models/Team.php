@@ -19,4 +19,8 @@ class Team extends SuperModel
         return $this->hasOne('Nextria\Models\Coach');
     }
 
+    public function group() {
+        return $this->hasOne('Nextria\Models\Group');
+    }
+
 }

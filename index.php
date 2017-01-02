@@ -4,12 +4,12 @@ include "config.php";
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Illuminate\Database\Capsule\Manager as CapsuleManager;
 use Nextria\Helpers\Logger as Logger;
 use Nextria\Helpers\Sower as Sower;
 use Nextria\Controllers\PlayerController as Player;
 use Nextria\Controllers\CoachController as Coach;
 use Nextria\Controllers\TeamController as Team;
+use Nextria\Controllers\GroupController as Group;
 
 /** Instancia de Slim */
 $app = new \Slim\App(CONFIG);
@@ -115,6 +115,24 @@ $app->group('/teams', function () {
     $this->delete('/{team_id}', function (Request $request, Response $response, $args){
         $team = new Team();
         return $response->withJson($team->del($args['team_id']));
+    });
+});
+
+$app->group('/groups', function () {
+
+    $this->get('[/{group_id}]', function (Request $request, Response $response, $args){
+        $groups = new Group();
+        return $response->withJson(["groups" => $groups->get($args['group_id'])]);
+    });
+
+    $this->post('', function (Request $request, Response $response) {
+        $group = new Group();
+        return $response->withJson($group->add($request->getParsedBody()));
+    });
+
+    $this->delete('/{group_id}', function (Request $request, Response $response, $args){
+        $group = new Group();
+        return $response->withJson($group->del($args['group_id']));
     });
 });
 $app->run();
