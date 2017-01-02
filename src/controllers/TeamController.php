@@ -17,12 +17,13 @@ class TeamController extends SuperController {
             $teams = $this->model->get();
             foreach ($teams as $team) {
                 $team->players = $this->model->find($team->id)->players;
+                $team->coach = $this->model->find($team->id)->coach;
             }
             return $teams;
         }
         $teams = $this->model->find($id);
-        $players = $this->model->find($id)->players;
-        $teams->players = $players;
+        $teams->players = $this->model->find($id)->players;
+        $teams->coach = $this->model->find($id)->coach;
         return $teams;
     }
 }

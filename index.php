@@ -8,6 +8,7 @@ use Illuminate\Database\Capsule\Manager as CapsuleManager;
 use Nextria\Helpers\Logger as Logger;
 use Nextria\Helpers\Sower as Sower;
 use Nextria\Controllers\PlayerController as Player;
+use Nextria\Controllers\CoachController as Coach;
 use Nextria\Controllers\TeamController as Team;
 
 /** Instancia de Slim */
@@ -75,6 +76,26 @@ $app->group('/players', function() {
     $this->delete('/{player_id}', function (Request $request, Response $response, $args){
         $player = new Player();
         return $response->withJson($player->del($args['player_id']));
+    });
+
+});
+
+/** Coaches */
+$app->group('/coaches', function() {
+
+    $this->get('[/{coach_id}]', function (Request $request, Response $response, $args){
+        $coach = new Coach();
+        return $response->withJson(["coaches" => $coach->get($args['coach_id'])]);
+    });
+
+    $this->post('', function (Request $request, Response $response) {
+        $coach = new Coach();
+        return $response->withJson($coach->add($request->getParsedBody()));
+    });
+
+    $this->delete('/{coach_id}', function (Request $request, Response $response, $args){
+        $coach = new Coach();
+        return $response->withJson($coach->del($args['coach_id']));
     });
 
 });

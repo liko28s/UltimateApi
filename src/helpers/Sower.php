@@ -15,6 +15,7 @@ class Sower {
         $this->updateTeams();
         $this->createPlayers();
         $this->updatePlayers();
+        $this->createCoaches();
     }
 
     public function createTeams() {
@@ -56,5 +57,20 @@ class Sower {
                 $table->integer('team_id')->references('id')->on('teams');
             }
         });
+    }
+
+    public function createCoaches() {
+        if(!$this->schema->hasTable('coaches')) {
+            $this->schema->create('coaches', function ($table){
+                $table->engine = 'MyIsam';
+                $table->increments('id');
+                $table->string('name',100);
+                $table->string('last_name',100);
+                $table->integer('team_id')->references('id')->on('teams');
+                $table->string('profile_image')->nullable;
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
     }
 }

@@ -15,4 +15,8 @@ class Team extends SuperModel
         return $this->hasMany('Nextria\Models\Player');
     }
 
+    public function coach() {
+        return $this->hasOne('Nextria\Models\Coach');
+    }
+
 }
