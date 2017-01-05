@@ -16,7 +16,7 @@ class Sower {
         $this->createCoaches();
         $this->createGroups();
         $this->createMatches();
-        $this->createMatchDetails()->nullable();
+        $this->createMatchDetails();
         $this->createUsers();
         $this->createMatchEvents();
         $this->createMatchStatus();
