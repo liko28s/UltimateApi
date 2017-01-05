@@ -135,7 +135,7 @@ $app->group('/groups', function () {
 $app->group('/matches', function () {
 
 
-    $this->get('/current', function (Request $request, Response $response){
+    $this->get('/currents', function (Request $request, Response $response){
         $matches = new Match();
         return $response->withJson(["matches" => $matches->getCurrent()]);
     });
