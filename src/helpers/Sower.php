@@ -48,8 +48,14 @@ class Sower {
                 $table->increments('id');
                 $table->string('name',100);
                 $table->string('last_name',100);
+                $table->string('nick_name',100)->nullable();
                 $table->integer('team_id')->references('id')->on('teams');
-                $table->string('profile_image')->nullable;
+                $table->string('identification',100)->nullable();
+                $table->string('eps',100)->nullable();
+                $table->string('number',4)->nullable();
+                $table->tinyInteger('vegetarian')->nullable();
+                $table->tinyInteger('camping')->nullable();
+                $table->text('profile_image')->nullable;
                 $table->timestamps();
                 $table->softDeletes();
             });

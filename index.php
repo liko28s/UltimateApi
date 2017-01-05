@@ -132,6 +132,36 @@ $app->group('/matches', function () {
         return $response->withJson(["matches" => $matches->get($args['match_id'])]);
     });
 
+    $this->get('/current/', function (Request $request, Response $response, $args){
+        //TODO este debe devolver los partidos que estan en curso
+        $matches = new Match();
+        return $response->withJson(["matches" => $matches->get($args['match_id'])]);
+    });
+
+    $this->post('', function (Request $request, Response $response) {
+        $match = new Match();
+        return $response->withJson($match->add($request->getParsedBody()));
+    });
+
+    $this->delete('/{match_id}', function (Request $request, Response $response, $args){
+        $match = new Match();
+        return $response->withJson($match->del($args['match_id']));
+    });
+});
+
+$app->group('/arenas', function () {
+
+    $this->get('[/{match_id}]', function (Request $request, Response $response, $args){
+        $matches = new Match();
+        return $response->withJson(["arenas" => $matches->get($args['match_id'])]);
+    });
+
+    $this->get('/current/', function (Request $request, Response $response, $args){
+        //TODO este debe devolver los partidos que estan en curso
+        $matches = new Match();
+        return $response->withJson(["matches" => $matches->get($args['match_id'])]);
+    });
+
     $this->post('', function (Request $request, Response $response) {
         $match = new Match();
         return $response->withJson($match->add($request->getParsedBody()));
