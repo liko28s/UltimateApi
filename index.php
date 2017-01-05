@@ -226,18 +226,6 @@ $app->group('/images', function() {
 
         return $response->withJson($controller->upd(['profile_image'=>$image_path], $args['id']));
     });
-
-    $this->post('/team/{team_id}', function (Request $request, Response $response, $args) {
-        $files = $request->getUploadedFiles();
-        $image_path = $this->images_path.$args['user_id'];
-
-        foreach($files as $file) {
-            $file->moveTo($image_path);
-        }
-
-        $user = new User();
-        return $response->withJson($user->upd(['profile_image'=>$image_path], $args['user_id']));
-    });
 });
 
 $app->run();
