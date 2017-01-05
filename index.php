@@ -10,6 +10,7 @@ use Nextria\Controllers\PlayerController as Player;
 use Nextria\Controllers\TeamController as Team;
 use Nextria\Controllers\GroupController as Group;
 use Nextria\Controllers\MatchController as Match;
+use Nextria\Controllers\UserController as User;
 
 /** Instancia de Slim */
 $app = new \Slim\App(CONFIG);
@@ -172,4 +173,25 @@ $app->group('/arenas', function () {
         return $response->withJson($match->del($args['match_id']));
     });
 });
+
+/** Users */
+$app->group('/users', function() {
+
+    $this->get('[/{user_id}]', function (Request $request, Response $response, $args){
+        $user = new User();
+        return $response->withJson(["users" => $user->get($args['user_id'])]);
+    });
+
+    $this->post('', function (Request $request, Response $response) {
+        $user = new User();
+        return $response->withJson($user->add($request->getParsedBody()));
+    });
+
+    $this->delete('/{user_id}', function (Request $request, Response $response, $args){
+        $user = new User();
+        return $response->withJson($user->del($args['user_id']));
+    });
+
+});
+
 $app->run();

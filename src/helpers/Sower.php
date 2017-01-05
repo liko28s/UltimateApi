@@ -55,7 +55,7 @@ class Sower {
                 $table->string('number',4)->nullable();
                 $table->tinyInteger('vegetarian')->nullable();
                 $table->tinyInteger('camping')->nullable();
-                $table->text('profile_image')->nullable;
+                $table->text('profile_image')->nullable();
                 $table->timestamps();
                 $table->softDeletes();
             });
@@ -73,7 +73,7 @@ class Sower {
                 $table->string('name',100);
                 $table->string('last_name',100);
                 $table->integer('team_id')->references('id')->on('teams');
-                $table->string('profile_image')->nullable;
+                $table->string('profile_image')->nullable();
                 $table->timestamps();
                 $table->softDeletes();
             });
@@ -116,6 +116,26 @@ class Sower {
                 $table->integer('player_id')->references('id')->on('players');
                 $table->integer('type');
                 $table->integer('status');
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
+    }
+
+    public function createUsers() {
+        if(!$this->schema->hasTable('users')) {
+            $this->schema->create('users', function ($table){
+                $table->engine = 'MyIsam';
+                $table->increments('id');
+                $table->string('identification',100)->nullable();
+                $table->string('name',100);
+                $table->string('last_name',100);
+                $table->string('email',100);
+                $table->text('profile_image')->nullable();
+                $table->integer('player_id')->references('id')->on('players')->nullable();
+                $table->text('id_token')->nullable();
+                $table->text('web_client_id')->nullable();
+                $table->text('server_auth_code')->nullable();
                 $table->timestamps();
                 $table->softDeletes();
             });
