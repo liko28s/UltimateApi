@@ -20,6 +20,8 @@ class Sower {
 
         $this->updateTeams();
         $this->updatePlayers();
+
+        $this->createUsers();
     }
 
     public function createTeams() {
