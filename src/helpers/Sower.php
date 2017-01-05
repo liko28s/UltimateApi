@@ -106,8 +106,8 @@ class Sower {
             $this->schema->create('match_details', function ($table){
                 $table->engine = 'MyIsam';
                 $table->integer('match_id');
-                $table->integer('team_id')->references('id')->on('teams');
-                $table->integer('player_id')->references('id')->on('players');
+                $table->integer('team_id')->references('id')->on('teams')->nullable();
+                $table->integer('player_id')->references('id')->on('players')->nullable();
                 $table->integer('event')->references('id')->on('match_events');
                 $table->integer('status');
                 $table->text('description')->nullable();
