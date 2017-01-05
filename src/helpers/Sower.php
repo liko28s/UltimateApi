@@ -16,8 +16,10 @@ class Sower {
         $this->createCoaches();
         $this->createGroups();
         $this->createMatches();
-        $this->createMatchDetails();
+        $this->createMatchDetails()->nullable();
         $this->createUsers();
+        $this->createMatchEvents();
+        $this->createMatchStatus();
     }
 
     public function createTeams() {
