@@ -20,6 +20,8 @@ class Sower {
 
         $this->updateTeams();
         $this->updatePlayers();
+
+        $this->createUsers();
     }
 
     public function createTeams() {
@@ -30,7 +32,7 @@ class Sower {
                 $table->string('name',100);
                 $table->text('description')->nullable();
                 $table->integer('coach')->nullable();
-                $table->text('image')->nullable();
+                $table->text('profile_image')->nullable();
                 $table->integer('group_id')->references('id')->on('groups');
                 $table->timestamps();
                 $table->softDeletes();
@@ -86,7 +88,7 @@ class Sower {
                 $table->engine = 'MyIsam';
                 $table->increments('id');
                 $table->string('name',100);
-                $table->timestamps();
+                $table->timestamps();http://54.164.10.62/api/p/1.png
                 $table->softDeletes();
             });
         }

@@ -3,7 +3,7 @@ const CONFIG = array(
     "settings" => array(
         "displayErrorDetails" => true,
         "determineRouteBeforeAppMiddleware" => true,
-        'db' => [
+        'db' => array(
             'driver' => 'mysql',
             'host' => 'localhost',
             'database' => 'ultimate',
@@ -12,6 +12,6 @@ const CONFIG = array(
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
-        ]
+        )
     )
 );

@@ -28,6 +28,11 @@ $container['password'] = function () {
     return $_SERVER['PHP_AUTH_PW'];
 };
 
+/** Ruta Imágenes */
+$container['images_path'] = function () {
+    return 'img/';
+};
+
 /** Database */
 //TODO si codigo 42S02 (tabla no existe) llamar a creacion de tablas
 $container['db'] = function ($c) {
@@ -192,6 +197,47 @@ $app->group('/users', function() {
         return $response->withJson($user->del($args['user_id']));
     });
 
+});
+
+/** Images */
+$app->group('/images', function() {
+
+    $this->get('/{folder:(?:profile|team)}/{id}', function (Request $request, Response $response, $args) {
+        return $response->withBody(new \GuzzleHttp\Psr7\LazyOpenStream(
+            $this->images_path.$args['folder'].'/'.$args['id'],'r'))
+            ->withHeader('Content-Type','image');
+    });
+
+    $this->post('/{folder:(?:profile|team)}/{id}', function (Request $request, Response $response, $args) {
+        $files = $request->getUploadedFiles();
+        $image_path = $this->images_path.$args['folder'].'/'.$args['id'];
+
+        foreach($files as $file) {
+            $file->moveTo($image_path);
+        }
+
+        switch($args['folder']) {
+            case 'profile':
+                $controller = new User();
+                break;
+            case 'team':
+                $controller = new Team();
+        }
+
+        return $response->withJson($controller->upd(['profile_image'=>$image_path], $args['id']));
+    });
+
+    $this->post('/team/{team_id}', function (Request $request, Response $response, $args) {
+        $files = $request->getUploadedFiles();
+        $image_path = $this->images_path.$args['user_id'];
+
+        foreach($files as $file) {
+            $file->moveTo($image_path);
+        }
+
+        $user = new User();
+        return $response->withJson($user->upd(['profile_image'=>$image_path], $args['user_id']));
+    });
 });
 
 $app->run();
