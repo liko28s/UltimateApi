@@ -17,10 +17,6 @@ class Sower {
         $this->createGroups();
         $this->createMatches();
         $this->createMatchDetails();
-
-        $this->updateTeams();
-        $this->updatePlayers();
-
         $this->createUsers();
     }
 
@@ -40,8 +36,6 @@ class Sower {
         }
     }
 
-    public function updateTeams() {
-    }
 
     public function createPlayers() {
         if(!$this->schema->hasTable('players')) {
@@ -64,8 +58,6 @@ class Sower {
         }
     }
 
-    public function updatePlayers() {
-    }
 
     public function createCoaches() {
         if(!$this->schema->hasTable('coaches')) {
@@ -103,7 +95,7 @@ class Sower {
                 $table->integer('arena_id')->references('id')->on('arenas');
                 $table->integer('team_one')->references('id')->on('teams');
                 $table->integer('team_two')->references('id')->on('teams');
-                $table->integer('status');
+                $table->integer('status')->references('id')->on('match_status');
                 $table->timestamps();
                 $table->softDeletes();
             });
@@ -116,10 +108,16 @@ class Sower {
                 $table->integer('match_id');
                 $table->integer('team_id')->references('id')->on('teams');
                 $table->integer('player_id')->references('id')->on('players');
-                $table->integer('type');
+                $table->integer('event')->references('id')->on('match_events');
                 $table->integer('status');
+                $table->text('description')->nullable();
                 $table->timestamps();
                 $table->softDeletes();
+            });
+        }
+        if(!$this->schema->hasColumn('match_details', 'event')){
+            $this->schema->table('match_details',function($table) {
+               $table->integer('event')->references('id')->on('match_events');
             });
         }
     }
@@ -144,4 +142,29 @@ class Sower {
         }
     }
 
+    public function createMatchEvents() {
+        if(!$this->schema->hasTable('match_events')) {
+            $this->schema->create('match_events', function ($table){
+                $table->engine = 'MyIsam';
+                $table->increments('id');
+                $table->string('description',100);
+                $table->tinyInteger('status')->default(1);
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
+    }
+
+    public function createMatchStatus() {
+        if(!$this->schema->hasTable('match_status')) {
+            $this->schema->create('match_status', function ($table){
+                $table->engine = 'MyIsam';
+                $table->increments('id');
+                $table->string('description',100);
+                $table->tinyInteger('status')->default(1);
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
+    }
 }

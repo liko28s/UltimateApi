@@ -23,4 +23,14 @@ class MatchController extends SuperController{
         $matches->details = $this->model->find($id)->details;
         return $matches;
     }
+
+    public function getCurrent() {
+        $matches = $this->model->where('match_time','<=',date('Y-m-d H:m:s'))
+            ->whereRaw("date_add(match_time, INTERVAL 1 hour) >= '".date('Y-m-d H:m:s')."'")
+            ->get();
+        foreach ($matches as $match) {
+            $match->details = $this->model->find($match->id)->details;
+        }
+        return $matches;
+    }
 }

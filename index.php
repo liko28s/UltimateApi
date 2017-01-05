@@ -11,6 +11,7 @@ use Nextria\Controllers\TeamController as Team;
 use Nextria\Controllers\GroupController as Group;
 use Nextria\Controllers\MatchController as Match;
 use Nextria\Controllers\UserController as User;
+use Nextria\Controllers\MatchDetailsController as MatchDetails;
 
 /** Instancia de Slim */
 $app = new \Slim\App(CONFIG);
@@ -133,13 +134,13 @@ $app->group('/groups', function () {
 
 $app->group('/matches', function () {
 
-    $this->get('[/{match_id}]', function (Request $request, Response $response, $args){
+
+    $this->get('/current', function (Request $request, Response $response){
         $matches = new Match();
-        return $response->withJson(["matches" => $matches->get($args['match_id'])]);
+        return $response->withJson(["matches" => $matches->getCurrent()]);
     });
 
-    $this->get('/current/', function (Request $request, Response $response, $args){
-        //TODO este debe devolver los partidos que estan en curso
+    $this->get('[/{match_id}]', function (Request $request, Response $response, $args){
         $matches = new Match();
         return $response->withJson(["matches" => $matches->get($args['match_id'])]);
     });
@@ -149,10 +150,16 @@ $app->group('/matches', function () {
         return $response->withJson($match->add($request->getParsedBody()));
     });
 
+    $this->post('/{match_id}/event', function (Request $request, Response $response, $args) {
+        $matchDetails = new MatchDetails();
+        return $response->withJson($matchDetails->add($request->getParsedBody()));
+    });
+
     $this->delete('/{match_id}', function (Request $request, Response $response, $args){
         $match = new Match();
         return $response->withJson($match->del($args['match_id']));
     });
+
 });
 
 $app->group('/arenas', function () {
