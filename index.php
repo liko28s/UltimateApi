@@ -7,7 +7,6 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Nextria\Helpers\Logger as Logger;
 use Nextria\Helpers\Sower as Sower;
 use Nextria\Controllers\PlayerController as Player;
-use Nextria\Controllers\CoachController as Coach;
 use Nextria\Controllers\TeamController as Team;
 use Nextria\Controllers\GroupController as Group;
 use Nextria\Controllers\MatchController as Match;
@@ -85,20 +84,9 @@ $app->group('/players', function() {
 $app->group('/coaches', function() {
 
     $this->get('[/{coach_id}]', function (Request $request, Response $response, $args){
-        $coach = new Coach();
-        return $response->withJson(["coaches" => $coach->get($args['coach_id'])]);
+        $player = new Player();
+        return $response->withJson(["coaches" => $player->get($args['coach_id'])]);
     });
-
-    $this->post('', function (Request $request, Response $response) {
-        $coach = new Coach();
-        return $response->withJson($coach->add($request->getParsedBody()));
-    });
-
-    $this->delete('/{coach_id}', function (Request $request, Response $response, $args){
-        $coach = new Coach();
-        return $response->withJson($coach->del($args['coach_id']));
-    });
-
 });
 
 $app->group('/teams', function () {
