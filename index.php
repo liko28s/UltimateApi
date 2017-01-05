@@ -134,14 +134,11 @@ $app->group('/groups', function () {
 
 $app->group('/matches', function () {
 
-
-    $this->get('/currents', function (Request $request, Response $response){
-        $matches = new Match();
-        return $response->withJson(["matches" => $matches->getCurrent()]);
-    });
-
     $this->get('[/{match_id}]', function (Request $request, Response $response, $args){
         $matches = new Match();
+        if($request->getQueryParams('current',false)) {
+            return $response->withJson(["matches" => $matches->getCurrent()]);
+        }
         return $response->withJson(["matches" => $matches->get($args['match_id'])]);
     });
 

@@ -108,6 +108,7 @@ class Sower {
             $this->schema->create('match_details', function ($table){
                 $table->engine = 'MyIsam';
                 $table->integer('match_id');
+                $table->timestamp('date_time')->nullable();
                 $table->integer('team_id')->references('id')->on('teams')->nullable();
                 $table->integer('player_id')->references('id')->on('players')->nullable();
                 $table->integer('event')->references('id')->on('match_events');
@@ -117,9 +118,9 @@ class Sower {
                 $table->softDeletes();
             });
         }
-        if(!$this->schema->hasColumn('match_details', 'event')){
+        if(!$this->schema->hasColumn('match_details', 'date_time')){
             $this->schema->table('match_details',function($table) {
-               $table->integer('event')->references('id')->on('match_events');
+               $table->timestamp('date_time');
             });
         }
     }
