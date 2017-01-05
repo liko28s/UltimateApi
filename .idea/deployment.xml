@@ -1,17 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="Aws">
-    <serverData>
-      <paths name="Aws">
-        <serverdata>
-          <mappings>
-            <mapping deploy="/home/ubuntu/nextria/ultimateApi" local="$PROJECT_DIR$" web="/api" />
-          </mappings>
-          <excludedPaths>
-            <excludedPath local="true" path="$PROJECT_DIR$/vendor" />
-          </excludedPaths>
-        </serverdata>
-      </paths>
-    </serverData>
-  </component>
+  <component name="PublishConfigData" serverName="Aws" />
 </project>

@@ -2,6 +2,7 @@
 
 namespace Nextria\Controllers;
 
+use Nextria\Helpers\Logger;
 use Nextria\Models\Match;
 
 class MatchController extends SuperController{
@@ -25,8 +26,11 @@ class MatchController extends SuperController{
     }
 
     public function getCurrent() {
-        $matches = $this->model->where('match_time','<=',date('Y-m-d H:m:s'))
-            ->whereRaw("date_add(match_time, INTERVAL 1 hour) >= '".date('Y-m-d H:m:s')."'")
+        $currentDate = date('Y-m-d H:m:s');
+        $log = new Logger();
+        $log->getInstance()->addInfo('CurrentDate'.$currentDate);
+        $matches = $this->model->where('match_time','<=', $currentDate)
+            ->whereRaw("date_add(match_time, INTERVAL 1 hour) >= '".$currentDate."'")
             ->get();
         foreach ($matches as $match) {
             $match->details = $this->model->find($match->id)->details;
