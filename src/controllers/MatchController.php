@@ -30,7 +30,7 @@ class MatchController extends SuperController{
         $log = new Logger();
         $log->getInstance()->addInfo('CurrentDate'.$currentDate);
         $matches = $this->model->where('match_time','<=', $currentDate)
-            ->whereRaw("date_add(match_time, INTERVAL 1 hour) >= '".$currentDate."'")
+            ->whereRaw("date_add(match_time, INTERVAL 2 hour) >= '".$currentDate."'")
             ->get();
         foreach ($matches as $match) {
             $match->details = $this->model->find($match->id)->details;
