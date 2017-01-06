@@ -26,11 +26,9 @@ class MatchController extends SuperController{
     }
 
     public function getCurrent() {
-        $currentDate = date('Y-m-d H:m:s');
-        $log = new Logger();
-        $log->getInstance()->addInfo('CurrentDate'.$currentDate);
-        $matches = $this->model->where('match_time','<=', $currentDate)
-            ->whereRaw("date_add(match_time, INTERVAL 2 hour) >= '".$currentDate."'")
+        $matches = $this->model->whereRaw('match_time <= now()')
+            ->whereRaw("date_add(match_time, INTERVAL 2 hour) >= now()")
+            ->orderBy('match_time','DESC')
             ->get();
         foreach ($matches as $match) {
             $match->details = $this->model->find($match->id)->details;
