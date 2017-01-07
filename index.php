@@ -147,7 +147,7 @@ $app->group('/matches', function () {
         return $response->withJson($match->add($request->getParsedBody()));
     });
 
-    $this->post('/{match_id}/event', function (Request $request, Response $response, $args) {
+    $this->post('/event', function (Request $request, Response $response, $args) {
         $matchDetails = new MatchDetails();
         return $response->withJson($matchDetails->add($request->getParsedBody()));
     });
