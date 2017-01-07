@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="aad2d399-5362-4b7f-a060-fbdc525935ef" name="Aws" url="http://ec2-54-164-10-62.compute-1.amazonaws.com">
+        <fileTransfer host="ec2-54-164-10-62.compute-1.amazonaws.com" port="22" privateKey="$PROJECT_DIR$/../Aws/Ultimate/nextria_ultimate.pem" accessType="SFTP" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

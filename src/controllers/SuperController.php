@@ -40,4 +40,21 @@ class SuperController {
         return array("Ok");
     }
 
+    public function upd($row, $id) {
+        foreach ($row as $field => $value) {
+            $record = $this->model->find($id);
+            if($record) {
+                try {
+                    $record->$field = $value;
+                    $record->save();
+                } catch (QueryException $e) {
+                    return array("ERROR" => $e->getMessage());
+                }
+            } else {
+                return array("ERROR" => "NO SE ENCONTRÓ EL REGISTRO $id EN {$this->model->getTable()}");
+            }
+        }
+        return array("OK");
+    }
+
 }
