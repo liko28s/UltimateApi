@@ -45,7 +45,14 @@ class GroupController extends SuperController{
                         }
                     }
                 }
+                $teams = $group->teams->toArray();
+                usort($teams,function($one, $two) {
+                        return $two['pg'] - $one['pg'];
+                });
+                $group->teams = $teams;
             }
+
+
             return $groups;
         }
         $groups = $this->model->find($id);
