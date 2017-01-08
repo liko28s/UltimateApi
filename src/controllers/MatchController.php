@@ -35,4 +35,14 @@ class MatchController extends SuperController{
         }
         return $matches;
     }
+
+    public function getPhases($phase) {
+        $matches = $this->model->where('phase',(int)$phase)
+            ->orderBy('match_time','DESC')
+            ->get();
+        foreach ($matches as $match) {
+            $match->details = $this->model->find($match->id)->details;
+        }
+        return $matches;
+    }
 }

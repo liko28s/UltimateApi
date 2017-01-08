@@ -136,8 +136,13 @@ $app->group('/matches', function () {
 
     $this->get('[/{match_id}]', function (Request $request, Response $response, $args){
         $matches = new Match();
-        if($request->getQueryParams('current',false)) {
+        $current = $request->getQueryParams('current',false);
+        $phase = $request->getQueryParams('phase',null);
+        if((bool)$current['current']) {
             return $response->withJson(["matches" => $matches->getCurrent()]);
+        }
+        if($phase['phase']) {
+            return $response->withJson(["matches" => $matches->getPhases($phase['phase'])]);
         }
         return $response->withJson(["matches" => $matches->get($args['match_id'])]);
     });
@@ -149,7 +154,7 @@ $app->group('/matches', function () {
 
     $this->post('/event', function (Request $request, Response $response, $args) {
         $matchDetails = new MatchDetails();
-        return $response->withJson($matchDetails->add($request->getParsedBody()));
+        return $response->withJson($matchDetails->add($request->getParsedBody()['detail']));
     });
 
     $this->delete('/{match_id}', function (Request $request, Response $response, $args){

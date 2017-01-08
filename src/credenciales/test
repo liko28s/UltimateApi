@@ -1,3 +1,3 @@
  ember cordova:build --environment=production --platform=android
- jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore /home/ramiro/Code/Aws/Ultimate/NextriaKeyStore.jks android-release-unsigned.apk ultimate
+ jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore /home/develpc/Code/UltimateApi/src/credenciales/NextriaKeyStore.jks android-release-unsigned.apk ultimate
  zipalign -v 4 android-release-unsigned.apk co.nextria.ultimateApp.apk

@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="aad2d399-5362-4b7f-a060-fbdc525935ef" name="Aws" url="http://ec2-54-164-10-62.compute-1.amazonaws.com">
-        <fileTransfer host="ec2-54-164-10-62.compute-1.amazonaws.com" port="22" privateKey="$PROJECT_DIR$/../Aws/Ultimate/nextria_ultimate.pem" accessType="SFTP" keyPair="true">
+        <fileTransfer host="ec2-54-164-10-62.compute-1.amazonaws.com" port="22" privateKey="$PROJECT_DIR$/src/credenciales/nextria_ultimate.pem" accessType="SFTP" username="ubuntu" keyPair="true">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" />
           </advancedOptions>
